@@ -7,9 +7,14 @@ A simple shell script that converts `.cbr` files to `.cbz`, regardless of whethe
 - `unrar`
 - `zip` / `unzip`
 
-## Usage
+## Installation
 
-> Make sure the script is executable: `chmod +x cbrtocbz`
+```bash
+chmod +x cbrtocbz
+sudo mv cbrtocbz /usr/local/bin/
+```
+
+## Usage
 
 ```bash
 # Convert files in the current directory

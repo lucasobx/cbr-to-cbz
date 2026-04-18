@@ -18,8 +18,8 @@ sudo mv cbrtocbz /usr/local/bin/
 
 ```bash
 # Convert files in the current directory
-./cbrtocbz
+cbrtocbz
 
 # Convert files in a specific directory
-./cbrtocbz /path/to/files
+cbrtocbz /path/to/files
 ```

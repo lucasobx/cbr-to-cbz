@@ -4,8 +4,7 @@ A simple shell script that converts `.cbr` files to `.cbz`, regardless of whethe
 
 ## Dependencies
 
-- `unrar`
-- `zip` / `unzip`
+`unrar` / `zip` / `unzip` / `7zip`
 
 ## Installation
 

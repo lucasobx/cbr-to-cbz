@@ -93,4 +93,4 @@ fi
 
 # Parallelize with up to N simultaneous processes
 N=$(nproc 2>/dev/null || echo 4)
-printf '%s\n' "${files[@]}" | xargs -P "$N" -I{} bash -c 'process "$@"' _ {}
+printf '%s\0' "${files[@]}" | xargs -0 -P "$N" -I{} bash -c 'process "$@"' _ {}

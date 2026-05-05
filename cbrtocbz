@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Check dependencies
-for cmd in unrar unzip zip; do
+for cmd in unrar unzip zip 7z; do
     command -v "$cmd" &>/dev/null || { echo "Missing dependency: $cmd"; exit 1; }
 done
 
@@ -21,6 +21,11 @@ detect_type() {
         return
     fi
 
+    if [[ "$type" == "application/x-7z-compressed"* ]]; then
+        echo "7z"
+        return
+    fi
+
     # Fallback: read magic bytes
     local magic
     magic=$(xxd -p -l 4 "$file" 2>/dev/null || od -A n -N 4 -t x1 "$file" | tr -d ' ')
@@ -34,6 +39,12 @@ detect_type() {
     # ZIP: 504b0304 = "PK"
     if [[ "$magic" == "504b"* ]]; then
         echo "zip"
+        return
+    fi
+
+    # 7z: 377abcaf = "7z¼¯"
+    if [[ "$magic" == "377abcaf"* ]]; then
+        echo "7z"
         return
     fi
 
@@ -59,6 +70,9 @@ process() {
         zip)
             unzip -qq "$file" -d "$base/" && extracted=true
             ;;
+        7z)
+            7z x "$file" -o"$base/" -bd -bso0 && extracted=true
+            ;;
         *)
             echo "Error: unknown format for $file"
             rmdir "$base"
@@ -68,7 +82,7 @@ process() {
 
     if $extracted; then
         rm -f "$file"
-        if (cd "$base" && zip -qr "../$cbz" .); then
+        if 7z a -tzip -mmt="$(nproc)" "$cbz" "$base/" -bd -bso0 > /dev/null; then
             rm -rf "$base"
             echo "Done: $cbz"
         else

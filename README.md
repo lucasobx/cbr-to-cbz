@@ -14,11 +14,7 @@ sudo mv cbrtocbz /usr/local/bin/
 ```
 
 ## Usage
-
+Convert all .cbr files in the current directory and subdirectories
 ```bash
-# Convert files in the current directory
 cbrtocbz
-
-# Convert files in a specific directory
-cbrtocbz /path/to/files
 ```
